@@ -13,7 +13,6 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     "coverage/**",
-    "tft1trick_phase1/**",
   ]),
 ]);
 

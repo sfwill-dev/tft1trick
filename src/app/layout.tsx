@@ -21,6 +21,11 @@ export const metadata: Metadata = {
     template: "%s | tft1trick",
   },
   description: "TFT one-trick insights, comps, and climb journey by tft1trick.",
+  icons: {
+    icon: "/tft1trick-logo.png",
+    shortcut: "/tft1trick-logo.png",
+    apple: "/tft1trick-logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -30,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
+      <body className="min-h-full flex flex-col text-zinc-100">
         <Header />
         <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-6 py-10 md:px-10">
           {children}
