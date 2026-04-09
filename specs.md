@@ -1,4 +1,4 @@
-# tft1trick — Technical Plan (v1)
+# TFT1Trick — Technical Plan (v1)
 
 ## 1) Goals
 
@@ -81,14 +81,14 @@ Example frontmatter for patch files:
 ---
 patch: "16.8"
 set: 16
-publishedAt: "2026-04-01"
+updatedAt: "2026-04-01"
 title: "Patch 16.8 Comps"
 ---
 ```
 
 Validation via Zod:
 
-- Required: `patch`, `set`, `publishedAt`, `title`
+- Required: `patch`, `set`, `updatedAt`, `title`
 - Optional: metadata fields as needed later
 
 ---
@@ -205,6 +205,13 @@ Plan:
 - GitHub Actions CI + deploy
 - SonarCloud quality gates + coverage reporting
 
-### Phase 4 — Monetization (later)
+### Phase 4 - Review
+
+- Grammar review
+- CRO review
+- SEO review
+- Code review
+
+### Phase 5 — AdSense
 
 - Add Google AdSense after approval

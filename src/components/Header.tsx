@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const navLinks = [
@@ -10,10 +11,17 @@ export function Header() {
     <header className="sticky top-0 z-10 border-b border-zinc-200/20 bg-[#212737]/90 backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-5xl items-center justify-between px-6 md:px-10">
         <Link
-          className="hover-amber flex items-center gap-3 text-base font-semibold tracking-tight md:text-lg"
+          className="flex items-center gap-3 text-base font-semibold tracking-tight md:text-lg home-link"
           href="/"
         >
-          <span className="tracking-widest">TFT1Trick</span>
+          <Image
+            alt="TFT1Trick monogram"
+            height={28}
+            priority
+            src="/tft1trick-monogram.png"
+            width={48}
+          />
+          <span className="tracking-widest font-extrabold">TFT1Trick</span>
         </Link>
 
         <nav aria-label="Main navigation">
@@ -21,7 +29,7 @@ export function Header() {
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
-                  className="hover-amber transition-colors hover:underline hover:decoration-amber-300 hover:underline-offset-4"
+                  className="transition-colors hover:underline hover:decoration-amber-300 hover:underline-offset-4"
                   href={link.href}
                 >
                   {link.label}

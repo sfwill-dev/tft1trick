@@ -3,12 +3,12 @@ export function Footer() {
     <footer className="border-t border-zinc-200/20 py-6">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 px-6 text-xs text-zinc-300 md:px-10">
         <div className="flex flex-col items-center justify-between gap-2 text-center md:flex-row md:text-left">
-          <p>© {new Date().getFullYear()} tft1trick</p>
+          <p>© {new Date().getFullYear()} TFT1Trick</p>
           <p className="flex flex-wrap items-center justify-center gap-2 md:justify-end">
             <span>
               Developed by{" "}
               <a
-                className="hover-amber text-zinc-100 underline decoration-zinc-400 underline-offset-2"
+                className="text-zinc-100 underline decoration-zinc-400 underline-offset-2"
                 href="https://sfwill.me"
                 rel="noreferrer"
                 target="_blank"
@@ -21,7 +21,7 @@ export function Footer() {
             </span>
             <a
               aria-label="View source code and licenses on GitHub"
-              className="hover-amber inline-flex items-center gap-1 text-zinc-100 underline decoration-zinc-400 underline-offset-2"
+              className="inline-flex items-center gap-1 text-zinc-100 underline decoration-zinc-400 underline-offset-2"
               href="https://github.com/sfwill-dev/tft1trick"
               rel="noreferrer"
               target="_blank"

@@ -6,7 +6,7 @@ describe("parseCompMdxSource", () => {
     const source = `---
 patch: "16.8"
 set: 16
-publishedAt: "2026-04-01"
+updatedAt: "2026-04-01"
 title: "Patch 16.8 Comps"
 ---
 
@@ -18,7 +18,7 @@ title: "Patch 16.8 Comps"
     expect(result.frontmatter).toEqual({
       patch: "16.8",
       set: 16,
-      publishedAt: "2026-04-01",
+      updatedAt: "2026-04-01",
       title: "Patch 16.8 Comps",
     });
     expect(result.content).toContain("## Sample comp");
@@ -28,7 +28,7 @@ title: "Patch 16.8 Comps"
     const invalidSource = `---
 patch: "16.8"
 set: 16
-publishedAt: "2026-04-01"
+updatedAt: "2026-04-01"
 ---
 
 Missing title`;

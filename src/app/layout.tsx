@@ -17,14 +17,14 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://tft1trick.com"),
   title: {
-    default: "tft1trick",
-    template: "%s | tft1trick",
+    default: "TFT1Trick | The Teamfight Tactics one-trick playbook",
+    template: "%s | TFT1Trick",
   },
-  description: "TFT one-trick insights, comps, and climb journey by tft1trick.",
+  description: "TFT one-trick insights, comps, and climb journey by TFT1Trick.",
   icons: {
-    icon: "/tft1trick-logo.png",
-    shortcut: "/tft1trick-logo.png",
-    apple: "/tft1trick-logo.png",
+    icon: "/tft1trick-monogram.png",
+    shortcut: "/tft1trick-monogram.png",
+    apple: "/tft1trick-monogram.png",
   },
 };
 

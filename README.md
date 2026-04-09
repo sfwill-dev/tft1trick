@@ -1,2 +1,52 @@
-# tft1trick
-tft1trick.com
+# TFT1Trick — Teamfight Tactics One-Trick Website
+
+This is the source code for my Teamfight Tactics one-trick website, built with [Next.js](https://nextjs.org/) and TypeScript, with content authored in MDX, and deployed on [AWS](https://aws.amazon.com/).
+
+## About
+
+**TFT1Trick** is a TFT project around one-tricking fundamentals and patch-based comp guidance.
+
+## Project Structure
+
+```text
+├── content/
+│   ├── comps/                 # Patch-based comp guides in MDX
+│   └── home/                  # Home page content sections in MDX
+├── public/                    # Static assets
+├── src/
+│   ├── app/                   # Next.js App Router pages
+│   │   └── comps/             # /comps route
+│   ├── components/            # Reusable UI components
+│   ├── lib/                   # MDX + patch utilities
+│   └── schemas/               # Zod schemas
+├── specs.md                   # Technical plan and architecture notes
+├── next.config.ts             # Next.js configuration
+├── package.json               # Scripts and dependencies
+└── LICENSE                    # MIT license
+```
+
+## Commands
+
+| Command                 | Action                                     |
+| :---------------------- | :----------------------------------------- |
+| `npm install`           | Install dependencies                       |
+| `npm run dev`           | Start local dev server at `localhost:3000` |
+| `npm run build`         | Build production output                    |
+| `npm run start`         | Run production server                      |
+| `npm run lint`          | Run ESLint                                 |
+| `npm run type-check`    | Run TypeScript checker (`tsc --noEmit`)    |
+| `npm run test`          | Run unit tests                             |
+| `npm run test:coverage` | Run unit tests with coverage               |
+| `npm run format`        | Format files with Prettier                 |
+| `npm run format:check`  | Check formatting with Prettier             |
+
+## Deployment
+
+- **Hosting:** S3 + CloudFront
+- **Infrastructure as Code:** Terraform
+- **CI/CD:** GitHub Actions
+- **DNS:** Cloudflare
+
+## License
+
+This repository is licensed under the [MIT License](LICENSE).

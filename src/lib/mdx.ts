@@ -7,8 +7,6 @@ const contentRootDir = path.join(process.cwd(), "content");
 const homeContentDir = path.join(contentRootDir, "home");
 const compsContentDir = path.join(contentRootDir, "comps");
 
-export type HomeSectionSlug = "philosophy" | "story";
-
 export type CompMdxEntry = {
   slug: string;
   fileName: string;
@@ -16,8 +14,8 @@ export type CompMdxEntry = {
   content: string;
 };
 
-export async function getHomeSectionSource(slug: HomeSectionSlug): Promise<string> {
-  const filePath = path.join(homeContentDir, `${slug}.mdx`);
+export async function getHomePageSource(): Promise<string> {
+  const filePath = path.join(homeContentDir, "page.mdx");
   return fs.readFile(filePath, "utf8");
 }
 

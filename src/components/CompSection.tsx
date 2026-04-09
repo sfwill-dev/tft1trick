@@ -1,11 +1,13 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
+import Link from "next/link";
 import type { CompMdxEntry } from "@/lib/mdx";
 
 type CompSectionProps = {
   entry: CompMdxEntry | null;
+  latestPatch?: string | null;
 };
 
-function formatPublishedDate(date: string): string {
+function formatUpdatedAtDate(date: string): string {
   return new Date(date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
@@ -14,14 +16,14 @@ function formatPublishedDate(date: string): string {
   });
 }
 
-export function CompSection({ entry }: CompSectionProps) {
+export function CompSection({ entry, latestPatch = null }: CompSectionProps) {
   if (!entry) {
     return (
       <section className="py-1">
         <h2 className="text-xl font-semibold tracking-tight text-zinc-50">
           No comp content available
         </h2>
-        <p className="mt-2 text-sm leading-6 text-zinc-300">
+        <p className="mt-2 text-base leading-6 text-zinc-300">
           We couldn&apos;t find a comp entry for this patch. Add a patch file in
           <code className="ml-1 text-zinc-100 underline underline-offset-2">content/comps</code>
           to render guidance.
@@ -36,15 +38,19 @@ export function CompSection({ entry }: CompSectionProps) {
         <p className="text-xs font-medium uppercase tracking-[0.16em] text-amber-300">
           Set {entry.frontmatter.set} • Patch {entry.frontmatter.patch}
         </p>
-        <h2 className="text-2xl font-semibold tracking-tight text-zinc-50">
-          {entry.frontmatter.title}
-        </h2>
         <p className="text-xs text-zinc-400">
-          Published {formatPublishedDate(entry.frontmatter.publishedAt)}
+          Updated {formatUpdatedAtDate(entry.frontmatter.updatedAt)}
         </p>
+
+        {latestPatch && entry.frontmatter.patch !== latestPatch ? (
+          <p className="max-w-2xl mt-8 rounded-md border border-amber-300/40 bg-amber-500/10 px-3 py-2 text-sm leading-5 text-amber-100">
+            ⚠️ This is an archived patch post. For the current patch, see{" "}
+            <Link href={`/comps/patch/${latestPatch}`}>patch {latestPatch}</Link>.
+          </p>
+        ) : null}
       </header>
 
-      <div className="space-y-4 border-t border-zinc-200/20 pt-6 text-sm leading-7 text-zinc-200 [&_a]:font-medium [&_a]:text-amber-300 [&_a]:underline [&_a]:decoration-amber-400/60 [&_a]:underline-offset-2 [&_a]:transition-colors [&_a]:hover:text-amber-200 [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-zinc-50 [&_h3]:mt-6 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-zinc-100 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-6 [&_p]:leading-7 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-6">
+      <div className="mdx-content space-y-4 text-base leading-7 text-zinc-200 mt-4 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-zinc-50 [&_h3]:mt-6 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-zinc-100 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-6 [&_p]:leading-7 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-6">
         <MDXRemote source={entry.content} />
       </div>
     </article>
