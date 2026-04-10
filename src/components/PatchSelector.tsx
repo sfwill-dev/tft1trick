@@ -18,7 +18,7 @@ export function PatchSelector({ patches, selectedPatch }: PatchSelectorProps) {
     const nextPatch = event.target.value;
 
     if (nextPatch) {
-      router.push(`/comps/patch/${nextPatch}`);
+      router.push(`/patches/${nextPatch}`);
     }
   };
 

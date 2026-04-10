@@ -5,7 +5,7 @@
 - Build a fast, SEO-friendly personal TFT site using **Next.js 16**.
 - Keep the initial scope intentionally small:
   - **Home** page
-  - **Comps to one-trick** page with patch selector (default current patch, e.g. `16.8`)
+  - **Patches** page with patch selector (default current patch, e.g. `16.8`)
 - Keep authoring simple with repo-based content.
 - Deploy on AWS with infrastructure-as-code and automated CI/CD.
 
@@ -52,11 +52,11 @@ Why this choice:
 - One-trick philosophy section.
 - Personal journey section (Emerald → Masters in 4 sets).
 
-## Comps (`/comps`)
+## Patches (`/patches`)
 
 - Patch selector (defaulting to current patch, e.g. `16.8`).
-- Patch-driven comp content loaded from MDX.
-- Initial comp format: mostly text + optional embedded image links (builder-board screenshots), similar spirit to BunnyMuffins.
+- Patch-driven content loaded from MDX.
+- Initial format: mostly text + optional embedded image links (builder-board screenshots), similar spirit to BunnyMuffins.
 
 ---
 
@@ -69,7 +69,7 @@ content/
   home/
     philosophy.mdx
     story.mdx
-  comps/
+  patches/
     _template.mdx
     patch-16.8.mdx
     patch-16.7.mdx
@@ -98,17 +98,17 @@ Validation via Zod:
 src/
   app/
     page.tsx
-    comps/page.tsx
+    patches/page.tsx
   components/
     Header.tsx
     Footer.tsx
     PatchSelector.tsx
-    CompSection.tsx
+    PatchSection.tsx
   lib/
     mdx.ts
     patches.ts
   schemas/
-    comp.ts
+    patch.ts
 
 content/
 infra/
@@ -193,7 +193,7 @@ Plan:
 
 - Implement MDX content pipeline
 - Add Zod validations
-- Build Home and Comps pages
+- Build Home and Patches pages
 - Add patch selector and default patch handling
 - Add `_template.mdx` for patch authoring
 

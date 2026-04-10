@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { getCompEntries, getHomePageSource } from "@/lib/mdx";
+import { getHomePageSource, getPatchEntries } from "@/lib/mdx";
 import { getAvailablePatchesFromEntries, getLatestPatch } from "@/lib/patches";
 
 export default async function Home() {
@@ -10,10 +10,10 @@ export default async function Home() {
   let latestPatch: string | null = null;
 
   try {
-    const compEntries = await getCompEntries();
-    latestPatch = getLatestPatch(getAvailablePatchesFromEntries(compEntries));
+    const patchEntries = await getPatchEntries();
+    latestPatch = getLatestPatch(getAvailablePatchesFromEntries(patchEntries));
   } catch (error) {
-    console.error("Failed to load comp entries for Home CTA label", error);
+    console.error("Failed to load patch entries for Home CTA label", error);
   }
 
   return (
@@ -39,7 +39,7 @@ export default async function Home() {
             <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
               <Link
                 className="inline-flex items-center rounded-lg bg-amber-500 px-4 py-2 text-base font-medium text-zinc-950 transition hover:bg-amber-400"
-                href={`/comps/patch/${latestPatch ?? "latest"}`}
+                href={`/patches/${latestPatch ?? "latest"}`}
               >
                 One-trick approach for the patch {latestPatch ?? "latest"}
               </Link>

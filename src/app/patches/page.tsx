@@ -1,17 +1,17 @@
 import { redirect } from "next/navigation";
-import { getCompEntries } from "@/lib/mdx";
+import { getPatchEntries } from "@/lib/mdx";
 import { getAvailablePatchesFromEntries, getLatestPatch } from "@/lib/patches";
 
-export default async function CompsPage() {
-  const targetPatch = await getCompEntries()
+export default async function PatchesPage() {
+  const targetPatch = await getPatchEntries()
     .then((entries) => {
       const availablePatches = getAvailablePatchesFromEntries(entries);
       return getLatestPatch(availablePatches);
     })
     .catch((error) => {
-      console.error("Failed to read comp entries", error);
+      console.error("Failed to read patch entries", error);
       return null;
     });
 
-  redirect(`/comps/patch/${targetPatch ?? "latest"}`);
+  redirect(`/patches/${targetPatch ?? "latest"}`);
 }

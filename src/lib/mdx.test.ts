@@ -1,7 +1,7 @@
 import { ZodError } from "zod";
-import { parseCompMdxSource } from "@/lib/mdx";
+import { parsePatchMdxSource } from "@/lib/mdx";
 
-describe("parseCompMdxSource", () => {
+describe("parsePatchMdxSource", () => {
   it("parses and validates frontmatter", () => {
     const source = `---
 patch: "16.8"
@@ -11,7 +11,7 @@ updatedAt: "2026-04-01"
 
 ## Sample comp`;
 
-    const result = parseCompMdxSource(source, "patch-16.8.mdx");
+    const result = parsePatchMdxSource(source, "patch-16.8.mdx");
 
     expect(result.fileName).toBe("patch-16.8.mdx");
     expect(result.frontmatter).toEqual({
@@ -30,6 +30,6 @@ updatedAt: "2026-04-01"
 
 Missing set`;
 
-    expect(() => parseCompMdxSource(invalidSource, "patch-16.8.mdx")).toThrow(ZodError);
+    expect(() => parsePatchMdxSource(invalidSource, "patch-16.8.mdx")).toThrow(ZodError);
   });
 });

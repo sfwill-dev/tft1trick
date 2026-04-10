@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     default: "TFT1Trick | The Teamfight Tactics one-trick playbook",
     template: "%s | TFT1Trick",
   },
-  description: "TFT one-trick insights, comps, and climb journey by TFT1Trick.",
+  description: "TFT one-trick insights, patch approaches, and climb journey by TFT1Trick.",
   icons: {
     icon: "/tft1trick-monogram.png",
     shortcut: "/tft1trick-monogram.png",

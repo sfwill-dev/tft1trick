@@ -1,16 +1,16 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
-import { compFrontmatterSchema, type CompFrontmatter } from "@/schemas/comp";
+import { patchFrontmatterSchema, type PatchFrontmatter } from "@/schemas/patch";
 
 const contentRootDir = path.join(process.cwd(), "content");
 const homeContentDir = path.join(contentRootDir, "home");
-const compsContentDir = path.join(contentRootDir, "comps");
+const patchesContentDir = path.join(contentRootDir, "patches");
 
-export type CompMdxEntry = {
+export type PatchMdxEntry = {
   slug: string;
   fileName: string;
-  frontmatter: CompFrontmatter;
+  frontmatter: PatchFrontmatter;
   content: string;
 };
 
@@ -19,9 +19,9 @@ export async function getHomePageSource(): Promise<string> {
   return fs.readFile(filePath, "utf8");
 }
 
-export function parseCompMdxSource(source: string, fileName: string): Omit<CompMdxEntry, "slug"> {
+export function parsePatchMdxSource(source: string, fileName: string): Omit<PatchMdxEntry, "slug"> {
   const parsed = matter(source);
-  const frontmatter = compFrontmatterSchema.parse(parsed.data);
+  const frontmatter = patchFrontmatterSchema.parse(parsed.data);
 
   return {
     fileName,
@@ -30,15 +30,15 @@ export function parseCompMdxSource(source: string, fileName: string): Omit<CompM
   };
 }
 
-export async function getCompEntries(): Promise<CompMdxEntry[]> {
-  const files = await fs.readdir(compsContentDir);
+export async function getPatchEntries(): Promise<PatchMdxEntry[]> {
+  const files = await fs.readdir(patchesContentDir);
   const mdxFiles = files.filter((file) => file.endsWith(".mdx") && !file.startsWith("_"));
 
   const entries = await Promise.all(
     mdxFiles.map(async (fileName) => {
-      const filePath = path.join(compsContentDir, fileName);
+      const filePath = path.join(patchesContentDir, fileName);
       const source = await fs.readFile(filePath, "utf8");
-      const parsed = parseCompMdxSource(source, fileName);
+      const parsed = parsePatchMdxSource(source, fileName);
 
       return {
         ...parsed,

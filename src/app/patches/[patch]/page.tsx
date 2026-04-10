@@ -1,43 +1,43 @@
 import { redirect } from "next/navigation";
-import { CompSection } from "@/components/CompSection";
+import { PatchSection } from "@/components/PatchSection";
 import { PatchSelector } from "@/components/PatchSelector";
-import { getCompEntries } from "@/lib/mdx";
+import { getPatchEntries } from "@/lib/mdx";
 import {
   getAvailablePatchesFromEntries,
   getLatestPatch,
   resolveSelectedPatch,
 } from "@/lib/patches";
 
-type CompsPatchPageProps = {
+type PatchPageProps = {
   params: Promise<{
     patch: string;
   }>;
 };
 
-export default async function CompsPatchPage({ params }: CompsPatchPageProps) {
+export default async function PatchPage({ params }: PatchPageProps) {
   const routeParams = await params;
   const requestedPatch = routeParams.patch;
 
-  const compLoad = await getCompEntries()
+  const patchLoad = await getPatchEntries()
     .then((entries) => ({ entries, hadLoadError: false }))
     .catch((error) => {
-      console.error("Failed to read comp entries", error);
+      console.error("Failed to read patch entries", error);
       return { entries: [], hadLoadError: true };
     });
 
-  const compEntries = compLoad.entries;
-  const hadLoadError = compLoad.hadLoadError;
+  const patchEntries = patchLoad.entries;
+  const hadLoadError = patchLoad.hadLoadError;
 
-  const availablePatches = getAvailablePatchesFromEntries(compEntries);
+  const availablePatches = getAvailablePatchesFromEntries(patchEntries);
   const latestPatch = getLatestPatch(availablePatches);
   const selectedPatch = resolveSelectedPatch(requestedPatch, availablePatches);
 
   if (selectedPatch && requestedPatch !== selectedPatch) {
-    redirect(`/comps/patch/${selectedPatch}`);
+    redirect(`/patches/${selectedPatch}`);
   }
 
   const selectedEntry =
-    compEntries
+    patchEntries
       .filter((entry) => entry.frontmatter.patch === selectedPatch)
       .sort((a, b) => b.frontmatter.updatedAt.localeCompare(a.frontmatter.updatedAt))[0] ?? null;
 
@@ -51,7 +51,8 @@ export default async function CompsPatchPage({ params }: CompsPatchPageProps) {
         {hadLoadError ? (
           <p className="border-l-2 border-red-300 pl-3 text-xs text-red-200">
             Could not load patch files from content. Verify your MDX files in
-            <code className="ml-1 text-zinc-100 underline underline-offset-2">content/comps</code>.
+            <code className="ml-1 text-zinc-100 underline underline-offset-2">content/patches</code>
+            .
           </p>
         ) : null}
       </header>
@@ -61,7 +62,7 @@ export default async function CompsPatchPage({ params }: CompsPatchPageProps) {
       </section>
 
       <section className="pb-8">
-        <CompSection entry={selectedEntry} latestPatch={latestPatch} />
+        <PatchSection entry={selectedEntry} latestPatch={latestPatch} />
       </section>
     </section>
   );

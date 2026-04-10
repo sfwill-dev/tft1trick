@@ -10,19 +10,20 @@ This is the source code for my Teamfight Tactics one-trick website, built with [
 
 ```text
 ├── content/
-│   ├── comps/                 # Patch-based comp guides in MDX
+│   ├── patches/               # Patch-based guides in MDX
 │   └── home/                  # Home page content sections in MDX
 ├── public/                    # Static assets
+│   └── content/images/        # Images used by MDX content
 ├── src/
 │   ├── app/                   # Next.js App Router pages
-│   │   └── comps/             # /comps route
+│   │   └── patches/           # /patches route
 │   ├── components/            # Reusable UI components
 │   ├── lib/                   # MDX + patch utilities
 │   └── schemas/               # Zod schemas
 ├── specs.md                   # Technical plan and architecture notes
 ├── next.config.ts             # Next.js configuration
 ├── package.json               # Scripts and dependencies
-└── LICENSE                    # MIT license
+└── LICENSE                    # Dual license (CC BY 4.0 + MIT)
 ```
 
 ## Commands
@@ -49,4 +50,9 @@ This is the source code for my Teamfight Tactics one-trick website, built with [
 
 ## License
 
-This repository is licensed under the [MIT License](LICENSE).
+This repository uses dual licensing:
+
+- **Documentation & Site Content**: Licensed under [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/)
+- **Code & Code Snippets**: Licensed under the [MIT License](LICENSE)
+
+See the [LICENSE](LICENSE) file for full details.

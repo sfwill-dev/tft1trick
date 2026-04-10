@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const compFrontmatterSchema = z.object({
+export const patchFrontmatterSchema = z.object({
   patch: z
     .string()
     .regex(
@@ -11,4 +11,4 @@ export const compFrontmatterSchema = z.object({
   updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "updatedAt must follow the format YYYY-MM-DD"),
 });
 
-export type CompFrontmatter = z.infer<typeof compFrontmatterSchema>;
+export type PatchFrontmatter = z.infer<typeof patchFrontmatterSchema>;

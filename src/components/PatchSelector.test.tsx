@@ -31,6 +31,6 @@ describe("PatchSelector", () => {
 
     fireEvent.change(screen.getByRole("combobox"), { target: { value: "16.7" } });
 
-    expect(pushMock).toHaveBeenCalledWith("/comps/patch/16.7");
+    expect(pushMock).toHaveBeenCalledWith("/patches/16.7");
   });
 });

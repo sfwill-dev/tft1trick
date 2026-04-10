@@ -47,7 +47,8 @@ a:not([class*="bg-"]):not(.home-link):focus-visible {
   color: #fcd34d !important;
 }
 
-main a:not([class*="bg-"]) {
+main a:not([class*="bg-"]),
+footer a:not([class*="bg-"]) {
   font-weight: 500;
   text-decoration-line: underline;
   text-decoration-style: dotted;

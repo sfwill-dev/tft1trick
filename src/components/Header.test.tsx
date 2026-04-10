@@ -6,6 +6,6 @@ describe("Header", () => {
     render(<Header />);
 
     expect(screen.getByRole("link", { name: "Home" })).toHaveAttribute("href", "/");
-    expect(screen.getByRole("link", { name: "Comps" })).toHaveAttribute("href", "/comps");
+    expect(screen.getByRole("link", { name: "Patches" })).toHaveAttribute("href", "/patches");
   });
 });

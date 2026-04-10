@@ -1,9 +1,9 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
-import type { CompMdxEntry } from "@/lib/mdx";
+import type { PatchMdxEntry } from "@/lib/mdx";
 
-type CompSectionProps = {
-  entry: CompMdxEntry | null;
+type PatchSectionProps = {
+  entry: PatchMdxEntry | null;
   latestPatch?: string | null;
 };
 
@@ -16,16 +16,16 @@ function formatUpdatedAtDate(date: string): string {
   });
 }
 
-export function CompSection({ entry, latestPatch = null }: CompSectionProps) {
+export function PatchSection({ entry, latestPatch = null }: PatchSectionProps) {
   if (!entry) {
     return (
       <section className="py-1">
         <h2 className="text-xl font-semibold tracking-tight text-zinc-50">
-          No comp content available
+          No patch content available
         </h2>
         <p className="mt-2 text-base leading-6 text-zinc-300">
-          We couldn&apos;t find a comp entry for this patch. Add a patch file in
-          <code className="ml-1 text-zinc-100 underline underline-offset-2">content/comps</code>
+          We couldn&apos;t find a patch entry for this patch. Add a patch file in
+          <code className="ml-1 text-zinc-100 underline underline-offset-2">content/patches</code>
           to render guidance.
         </p>
       </section>
@@ -45,7 +45,7 @@ export function CompSection({ entry, latestPatch = null }: CompSectionProps) {
         {latestPatch && entry.frontmatter.patch !== latestPatch ? (
           <p className="max-w-2xl mt-8 rounded-md border border-amber-300/40 bg-amber-500/10 px-3 py-2 text-sm leading-5 text-amber-100">
             ⚠️ This is an archived patch post. For the current patch, see{" "}
-            <Link href={`/comps/patch/${latestPatch}`}>patch {latestPatch}</Link>.
+            <Link href={`/patches/${latestPatch}`}>patch {latestPatch}</Link>.
           </p>
         ) : null}
       </header>
