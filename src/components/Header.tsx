@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/comps", label: "Comps" },
+  { href: "/comps", label: "Patches" },
 ];
 
 export function Header() {

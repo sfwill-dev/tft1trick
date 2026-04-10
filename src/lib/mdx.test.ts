@@ -7,7 +7,6 @@ describe("parseCompMdxSource", () => {
 patch: "16.8"
 set: 16
 updatedAt: "2026-04-01"
-title: "Patch 16.8 Comps"
 ---
 
 ## Sample comp`;
@@ -19,7 +18,6 @@ title: "Patch 16.8 Comps"
       patch: "16.8",
       set: 16,
       updatedAt: "2026-04-01",
-      title: "Patch 16.8 Comps",
     });
     expect(result.content).toContain("## Sample comp");
   });
@@ -27,11 +25,10 @@ title: "Patch 16.8 Comps"
   it("throws when required frontmatter fields are missing", () => {
     const invalidSource = `---
 patch: "16.8"
-set: 16
 updatedAt: "2026-04-01"
 ---
 
-Missing title`;
+Missing set`;
 
     expect(() => parseCompMdxSource(invalidSource, "patch-16.8.mdx")).toThrow(ZodError);
   });

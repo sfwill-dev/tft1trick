@@ -41,7 +41,7 @@ export default async function Home() {
                 className="inline-flex items-center rounded-lg bg-amber-500 px-4 py-2 text-base font-medium text-zinc-950 transition hover:bg-amber-400"
                 href={`/comps/patch/${latestPatch ?? "latest"}`}
               >
-                Comps to one-trick on patch {latestPatch ?? "latest"}
+                One-trick approach for the patch {latestPatch ?? "latest"}
               </Link>
 
               <Link

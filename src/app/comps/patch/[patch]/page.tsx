@@ -44,10 +44,9 @@ export default async function CompsPatchPage({ params }: CompsPatchPageProps) {
   return (
     <section className="space-y-0">
       <header className="space-y-3 pb-4">
-        <h1 className="text-3xl font-semibold tracking-tight text-zinc-50">Comps to one-trick</h1>
-        <p className="max-w-2xl text-sm leading-7 text-zinc-300">
-          Patch-by-patch comp guidance with practical notes
-        </p>
+        <h1 className="text-3xl font-semibold tracking-tight text-zinc-50">
+          One-trick approach for the patch
+        </h1>
 
         {hadLoadError ? (
           <p className="border-l-2 border-red-300 pl-3 text-xs text-red-200">

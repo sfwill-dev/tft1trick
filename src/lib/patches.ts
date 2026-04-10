@@ -1,21 +1,35 @@
+const PATCH_FORMAT_REGEX = /^(\d+)\.(\d+)([a-z])?$/;
+
 export function isPatchFormat(value: string): boolean {
-  return /^\d+\.\d+$/.test(value);
+  return PATCH_FORMAT_REGEX.test(value);
 }
 
-function patchToParts(patch: string): [number, number] {
-  const [major, minor] = patch.split(".").map(Number);
-  return [major, minor];
+function patchToParts(patch: string): [number, number, number] {
+  const match = patch.match(PATCH_FORMAT_REGEX);
+
+  if (!match) {
+    return [0, 0, -1];
+  }
+
+  const [, majorRaw, minorRaw, suffixRaw] = match;
+  const suffixRank = suffixRaw ? suffixRaw.charCodeAt(0) - 96 : 0;
+
+  return [Number(majorRaw), Number(minorRaw), suffixRank];
 }
 
 export function comparePatchesDescending(a: string, b: string): number {
-  const [aMajor, aMinor] = patchToParts(a);
-  const [bMajor, bMinor] = patchToParts(b);
+  const [aMajor, aMinor, aSuffix] = patchToParts(a);
+  const [bMajor, bMinor, bSuffix] = patchToParts(b);
 
   if (aMajor !== bMajor) {
     return bMajor - aMajor;
   }
 
-  return bMinor - aMinor;
+  if (aMinor !== bMinor) {
+    return bMinor - aMinor;
+  }
+
+  return bSuffix - aSuffix;
 }
 
 export function sortPatchesDescending(patches: string[]): string[] {

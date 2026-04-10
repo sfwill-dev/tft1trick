@@ -82,13 +82,12 @@ Example frontmatter for patch files:
 patch: "16.8"
 set: 16
 updatedAt: "2026-04-01"
-title: "Patch 16.8 Comps"
 ---
 ```
 
 Validation via Zod:
 
-- Required: `patch`, `set`, `updatedAt`, `title`
+- Required: `patch`, `set`, `updatedAt`
 - Optional: metadata fields as needed later
 
 ---
