@@ -46,7 +46,7 @@ export default async function Home() {
 
               <Link
                 className="inline-flex items-center rounded-lg bg-red-600 px-4 py-2 text-base font-medium text-white transition hover:bg-red-500"
-                href="https://www.youtube.com/@TFT1Trick"
+                href="https://www.youtube.com/@TFT1Trick/?sub_confirmation=1"
                 rel="noreferrer"
                 target="_blank"
               >
