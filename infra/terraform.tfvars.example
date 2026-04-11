@@ -1,0 +1,6 @@
+aws_region             = "us-east-1-CHANGE-ME"
+project_name           = "tft1trick"
+domain_name            = "tft1trick.com"
+site_bucket_name       = "tft1trick-site-CHANGE-ME"
+github_repository      = "sfwill-dev/tft1trick"
+cloudfront_price_class = "PriceClass_100-CHANGE-ME"

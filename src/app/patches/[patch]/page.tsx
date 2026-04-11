@@ -14,6 +14,18 @@ type PatchPageProps = {
   }>;
 };
 
+export async function generateStaticParams() {
+  const patchEntries = await getPatchEntries().catch((error) => {
+    console.error("Failed to read patch entries while generating static params", error);
+    return [];
+  });
+
+  const availablePatches = getAvailablePatchesFromEntries(patchEntries);
+  const staticPatches = Array.from(new Set(["latest", ...availablePatches]));
+
+  return staticPatches.map((patch) => ({ patch }));
+}
+
 export default async function PatchPage({ params }: PatchPageProps) {
   const routeParams = await params;
   const requestedPatch = routeParams.patch;

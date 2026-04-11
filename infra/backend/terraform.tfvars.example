@@ -1,0 +1,4 @@
+aws_region        = "us-east-1-CHANGE-ME"
+project_name      = "tft1trick"
+state_bucket_name = "tft1trick-tf-state-CHANGE-ME"
+lock_table_name   = "tft1trick-tf-lock-CHANGE-ME"

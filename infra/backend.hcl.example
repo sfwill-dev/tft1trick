@@ -1,0 +1,5 @@
+bucket         = "tft1trick-terraform-state-CHANGE-ME"
+key            = "global/terraform.tfstate-CHANGE-ME"
+region         = "us-east-1-CHANGE-ME"
+dynamodb_table = "tft1trick-terraform-lock-CHANGE-ME"
+encrypt        = true
