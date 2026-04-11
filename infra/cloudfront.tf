@@ -10,6 +10,33 @@ data "aws_cloudfront_cache_policy" "managed_caching_optimized" {
   name = "Managed-CachingOptimized"
 }
 
+resource "aws_cloudfront_function" "clean_urls" {
+  name    = "${var.project_name}-clean-urls"
+  runtime = "cloudfront-js-1.0"
+  comment = "Rewrite extensionless URLs to static HTML object keys"
+  publish = true
+
+  code = <<-EOT
+function handler(event) {
+  var request = event.request;
+  var uri = request.uri;
+
+  if (uri.endsWith('/')) {
+    request.uri = uri + 'index.html';
+    return request;
+  }
+
+  var hasKnownAssetExtension = uri.match(/\.(?:css|js|mjs|map|json|txt|xml|png|jpe?g|gif|webp|svg|ico|woff2?|ttf|eot|otf|mp4|webm|webmanifest)$/i);
+
+  if (!hasKnownAssetExtension && !uri.endsWith('.html')) {
+    request.uri = uri + '.html';
+  }
+
+  return request;
+}
+EOT
+}
+
 resource "aws_cloudfront_distribution" "site" {
   enabled             = true
   is_ipv6_enabled     = true
@@ -31,6 +58,11 @@ resource "aws_cloudfront_distribution" "site" {
     cached_methods         = ["GET", "HEAD", "OPTIONS"]
     compress               = true
     cache_policy_id        = data.aws_cloudfront_cache_policy.managed_caching_optimized.id
+
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.clean_urls.arn
+    }
   }
 
   custom_error_response {
