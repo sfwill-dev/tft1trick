@@ -22,9 +22,9 @@ export const metadata: Metadata = {
   },
   description: "TFT one-trick insights, patch approaches, and climb journey by TFT1Trick.",
   icons: {
-    icon: "/tft1trick-monogram.png",
-    shortcut: "/tft1trick-monogram.png",
-    apple: "/tft1trick-monogram.png",
+    icon: "/tft1trick-monogram-squared.png",
+    shortcut: "/tft1trick-monogram-squared.png",
+    apple: "/tft1trick-monogram-squared.png",
   },
 };
 

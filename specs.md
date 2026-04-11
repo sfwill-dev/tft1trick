@@ -206,8 +206,7 @@ Plan:
 
 ### Phase 4 - Review
 
-- Grammar review
-- CRO review
+- UX review
 - SEO review
 - Code review
 
