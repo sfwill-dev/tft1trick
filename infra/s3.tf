@@ -6,6 +6,56 @@ resource "aws_s3_bucket" "site" {
   })
 }
 
+resource "aws_s3_bucket" "site_access_logs" {
+  bucket_prefix = "${var.project_name}-site-logs-"
+
+  tags = merge(local.common_tags, {
+    Name    = "${var.project_name}-site-access-logs"
+    Purpose = "site-access-logs"
+  })
+}
+
+resource "aws_s3_bucket_ownership_controls" "site_access_logs" {
+  bucket = aws_s3_bucket.site_access_logs.id
+
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_acl" "site_access_logs" {
+  depends_on = [aws_s3_bucket_ownership_controls.site_access_logs]
+
+  bucket = aws_s3_bucket.site_access_logs.id
+  acl    = "log-delivery-write"
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "site_access_logs" {
+  bucket = aws_s3_bucket.site_access_logs.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "site_access_logs" {
+  bucket = aws_s3_bucket.site_access_logs.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_logging" "site" {
+  bucket = aws_s3_bucket.site.id
+
+  target_bucket = aws_s3_bucket.site_access_logs.id
+  target_prefix = "site/"
+}
+
 resource "aws_s3_bucket_versioning" "site" {
   bucket = aws_s3_bucket.site.id
 
@@ -34,6 +84,29 @@ resource "aws_s3_bucket_public_access_block" "site" {
 }
 
 data "aws_iam_policy_document" "site_bucket_policy" {
+  statement {
+    sid    = "DenyInsecureTransport"
+    effect = "Deny"
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+
+    actions = ["s3:*"]
+
+    resources = [
+      aws_s3_bucket.site.arn,
+      "${aws_s3_bucket.site.arn}/*"
+    ]
+
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+  }
+
   statement {
     sid    = "AllowCloudFrontRead"
     effect = "Allow"

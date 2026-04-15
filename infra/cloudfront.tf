@@ -65,6 +65,12 @@ resource "aws_cloudfront_distribution" "site" {
     }
   }
 
+  logging_config {
+    bucket          = aws_s3_bucket.site_access_logs.bucket_domain_name
+    include_cookies = false
+    prefix          = "cloudfront/"
+  }
+
   custom_error_response {
     error_code            = 403
     response_code         = 404

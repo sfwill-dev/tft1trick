@@ -208,7 +208,7 @@ Plan:
 
 - UX review
 - SEO review
-- Code review
+- Code review (including test coverage)
 
 ### Phase 5 — AdSense
 
