@@ -43,7 +43,7 @@ This is the source code for my Teamfight Tactics one-trick website, built with [
 
 ## Deployment
 
-- **Hosting:** S3 + CloudFront
+- **Hosting:** AWS (S3 + CloudFront)
 - **Infrastructure as Code:** Terraform
 - **CI/CD:** GitHub Actions
 - **DNS:** Cloudflare
