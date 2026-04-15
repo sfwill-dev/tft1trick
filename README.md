@@ -4,7 +4,7 @@ This is the source code for my Teamfight Tactics one-trick website, built with [
 
 ## About
 
-**TFT1Trick** is a TFT project around one-tricking fundamentals and patch-based comp guidance.
+**[TFT1Trick.com](https://tft1trick.com/)** is a TFT project around one-trick playstyle and patch-based guidance.
 
 ## Project Structure
 

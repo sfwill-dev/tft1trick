@@ -67,6 +67,36 @@ resource "aws_s3_bucket_public_access_block" "terraform_state_access_logs" {
   restrict_public_buckets = true
 }
 
+data "aws_iam_policy_document" "terraform_state_access_logs_bucket_policy" {
+  statement {
+    sid    = "DenyInsecureTransport"
+    effect = "Deny"
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+
+    actions = ["s3:*"]
+
+    resources = [
+      aws_s3_bucket.terraform_state_access_logs.arn,
+      "${aws_s3_bucket.terraform_state_access_logs.arn}/*"
+    ]
+
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "terraform_state_access_logs" {
+  bucket = aws_s3_bucket.terraform_state_access_logs.id
+  policy = data.aws_iam_policy_document.terraform_state_access_logs_bucket_policy.json
+}
+
 resource "aws_s3_bucket_logging" "terraform_state" {
   bucket = aws_s3_bucket.terraform_state.id
 

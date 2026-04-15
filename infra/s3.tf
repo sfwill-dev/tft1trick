@@ -49,6 +49,36 @@ resource "aws_s3_bucket_public_access_block" "site_access_logs" {
   restrict_public_buckets = true
 }
 
+data "aws_iam_policy_document" "site_access_logs_bucket_policy" {
+  statement {
+    sid    = "DenyInsecureTransport"
+    effect = "Deny"
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+
+    actions = ["s3:*"]
+
+    resources = [
+      aws_s3_bucket.site_access_logs.arn,
+      "${aws_s3_bucket.site_access_logs.arn}/*"
+    ]
+
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "site_access_logs" {
+  bucket = aws_s3_bucket.site_access_logs.id
+  policy = data.aws_iam_policy_document.site_access_logs_bucket_policy.json
+}
+
 resource "aws_s3_bucket_logging" "site" {
   bucket = aws_s3_bucket.site.id
 
