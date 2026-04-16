@@ -51,7 +51,7 @@ export function PatchSection({ entry, latestPatch = null }: PatchSectionProps) {
         ) : null}
       </header>
 
-      <div className="mdx-content space-y-4 text-base leading-7 text-zinc-200 mt-4 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-zinc-50 [&_h3]:mt-6 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-zinc-100 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-6 [&_p]:leading-7 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-6">
+      <div className="mdx-content space-y-4 text-base leading-7 text-zinc-200 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-zinc-50 [&_h3]:mt-6 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-zinc-100 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-6 [&_p]:leading-7 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-6">
         <MDXRemote source={entry.content} components={{ BoardTabs, BoardTab }} />
       </div>
     </article>
