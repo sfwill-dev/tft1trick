@@ -1,19 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { getHomePageSource, getPatchEntries } from "@/lib/mdx";
-import { getAvailablePatchesFromEntries, getLatestPatch } from "@/lib/patches";
+import { getLatestGuide } from "@/lib/guides";
+import { getGuideEntries, getHomePageSource } from "@/lib/mdx";
 
 export default async function Home() {
   const homePageSource = await getHomePageSource();
 
-  let latestPatch: string | null = null;
+  let latestGuide = null;
 
   try {
-    const patchEntries = await getPatchEntries();
-    latestPatch = getLatestPatch(getAvailablePatchesFromEntries(patchEntries));
+    const guideEntries = await getGuideEntries();
+    latestGuide = getLatestGuide(guideEntries);
   } catch (error) {
-    console.error("Failed to load patch entries for Home CTA label", error);
+    console.error("Failed to load guide entries for Home CTA label", error);
   }
 
   return (
@@ -36,14 +36,19 @@ export default async function Home() {
               The TFT one-trick playbook
             </h1>
 
-            <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
-              <Link
-                className="inline-flex items-center rounded-lg bg-amber-500 px-4 py-2 text-base font-medium text-zinc-950 transition hover:bg-amber-400"
-                href={`/patches/${latestPatch ?? "latest"}`}
-              >
-                One-trick approach for the patch {latestPatch ?? "latest"}
-              </Link>
+            {latestGuide ? (
+              <div className="space-y-1">
+                <p className="text-xs uppercase tracking-[0.16em] text-zinc-400">Latest guide</p>
+                <Link
+                  className="inline-flex items-center text-lg font-semibold tracking-tight text-zinc-50 underline decoration-zinc-500 underline-offset-4 transition hover:text-amber-200 hover:decoration-amber-300 sm:text-xl"
+                  href={`/guides/${latestGuide.slug}`}
+                >
+                  {latestGuide.frontmatter.title} →
+                </Link>
+              </div>
+            ) : null}
 
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
               <Link
                 className="inline-flex items-center rounded-lg bg-red-600 px-4 py-2 text-base font-medium text-white transition hover:bg-red-500"
                 href="https://www.youtube.com/@TFT1Trick/?sub_confirmation=1"

@@ -4,21 +4,21 @@ This is the source code for my Teamfight Tactics one-trick website, built with [
 
 ## About
 
-**[TFT1Trick.com](https://tft1trick.com/)** is a TFT project around one-trick playstyle and patch-based guidance.
+**[TFT1Trick.com](https://tft1trick.com/)** is a TFT project around one-trick playstyle and guide-based content.
 
 ## Project Structure
 
 ```text
 ├── content/
-│   ├── patches/               # Patch-based guides in MDX
+│   ├── guides/                # Guide posts in MDX
 │   └── home/                  # Home page content sections in MDX
 ├── public/                    # Static assets
 │   └── content/images/        # Images used by MDX content
 ├── src/
 │   ├── app/                   # Next.js App Router pages
-│   │   └── patches/           # /patches route
+│   │   └── guides/            # /guides routes
 │   ├── components/            # Reusable UI components
-│   ├── lib/                   # MDX + patch utilities
+│   ├── lib/                   # MDX + guide utilities
 │   └── schemas/               # Zod schemas
 ├── specs.md                   # Technical plan and architecture notes
 ├── next.config.ts             # Next.js configuration

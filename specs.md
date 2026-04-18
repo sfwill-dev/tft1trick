@@ -5,7 +5,7 @@
 - Build a fast, SEO-friendly personal TFT site using **Next.js 16**.
 - Keep the initial scope intentionally small:
   - **Home** page
-  - **Patches** page with patch selector (default current patch, e.g. `16.8`)
+  - **Guides** page with latest entries + all entries
 - Keep authoring simple with repo-based content.
 - Deploy on AWS with infrastructure-as-code and automated CI/CD.
 
@@ -51,12 +51,21 @@ Why this choice:
 - Link button to YouTube channel.
 - One-trick philosophy section.
 - Personal journey section (Emerald → Masters in 4 sets).
+- Linked line for the latest guide title.
 
-## Patches (`/patches`)
+## Guides (`/guides`)
 
-- Patch selector (defaulting to current patch, e.g. `16.8`).
-- Patch-driven content loaded from MDX.
-- Initial format: mostly text + optional embedded image links (builder-board screenshots), similar spirit to BunnyMuffins.
+- Shows the latest 5 guide entries.
+- Link/button at the bottom: **All guides** (`/guides/all`).
+
+## All Guides (`/guides/all`)
+
+- Full list of every guide, newest first.
+
+## Guide Detail (`/guides/[slug]`)
+
+- Title and publication date.
+- MDX body content (including optional embeds such as YouTube iframes and board tabs).
 
 ---
 
@@ -67,28 +76,25 @@ Proposed structure:
 ```txt
 content/
   home/
-    philosophy.mdx
-    story.mdx
-  patches/
+    page.mdx
+  guides/
     _template.mdx
-    patch-16.8.mdx
-    patch-16.7.mdx
+    5-nova-patch-17-1.mdx
 ```
 
-Example frontmatter for patch files:
+Example frontmatter for guide files:
 
 ```yaml
 ---
-patch: "16.8"
-set: 16
-updatedAt: "2026-04-01"
+title: "I'm one-tricking 5 N.O.V.A. in patch 17.1 - here's the breakdown"
+date: "2026-04-15"
 ---
 ```
 
 Validation via Zod:
 
-- Required: `patch`, `set`, `updatedAt`
-- Optional: metadata fields as needed later
+- Required: `title`, `date`
+- `slug` derived from the MDX filename
 
 ---
 
@@ -98,17 +104,18 @@ Validation via Zod:
 src/
   app/
     page.tsx
-    patches/page.tsx
+    guides/page.tsx
+    guides/all/page.tsx
+    guides/[slug]/page.tsx
   components/
     Header.tsx
     Footer.tsx
-    PatchSelector.tsx
-    PatchSection.tsx
+    BoardTabs.tsx
   lib/
     mdx.ts
-    patches.ts
+    guides.ts
   schemas/
-    patch.ts
+    guide.ts
 
 content/
 infra/
@@ -163,9 +170,9 @@ infra/
 ## 9) Testing Strategy (v1)
 
 - Focus unit tests on utility logic/components where they add value:
-  - Patch parsing/sorting logic
+  - Guide sorting and lookup logic
   - MDX frontmatter/schema validation
-  - Selector behavior and fallback/default patch behavior
+  - Header navigation links
 - Avoid over-testing static presentational text sections.
 
 ---
@@ -193,9 +200,9 @@ Plan:
 
 - Implement MDX content pipeline
 - Add Zod validations
-- Build Home and Patches pages
-- Add patch selector and default patch handling
-- Add `_template.mdx` for patch authoring
+- Build Home and Guides pages
+- Build all guides and detail guide routes
+- Add `_template.mdx` for guide authoring
 
 ### Phase 3 — Infra + Automation
 

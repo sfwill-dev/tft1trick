@@ -1,16 +1,16 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
-import { patchFrontmatterSchema, type PatchFrontmatter } from "@/schemas/patch";
+import { guideFrontmatterSchema, type GuideFrontmatter } from "@/schemas/guide";
 
 const contentRootDir = path.join(process.cwd(), "content");
 const homeContentDir = path.join(contentRootDir, "home");
-const patchesContentDir = path.join(contentRootDir, "patches");
+const guidesContentDir = path.join(contentRootDir, "guides");
 
-export type PatchMdxEntry = {
+export type GuideMdxEntry = {
   slug: string;
   fileName: string;
-  frontmatter: PatchFrontmatter;
+  frontmatter: GuideFrontmatter;
   content: string;
 };
 
@@ -19,9 +19,9 @@ export async function getHomePageSource(): Promise<string> {
   return fs.readFile(filePath, "utf8");
 }
 
-export function parsePatchMdxSource(source: string, fileName: string): Omit<PatchMdxEntry, "slug"> {
+export function parseGuideMdxSource(source: string, fileName: string): Omit<GuideMdxEntry, "slug"> {
   const parsed = matter(source);
-  const frontmatter = patchFrontmatterSchema.parse(parsed.data);
+  const frontmatter = guideFrontmatterSchema.parse(parsed.data);
 
   return {
     fileName,
@@ -30,15 +30,15 @@ export function parsePatchMdxSource(source: string, fileName: string): Omit<Patc
   };
 }
 
-export async function getPatchEntries(): Promise<PatchMdxEntry[]> {
-  const files = await fs.readdir(patchesContentDir);
+export async function getGuideEntries(): Promise<GuideMdxEntry[]> {
+  const files = await fs.readdir(guidesContentDir);
   const mdxFiles = files.filter((file) => file.endsWith(".mdx") && !file.startsWith("_"));
 
   const entries = await Promise.all(
     mdxFiles.map(async (fileName) => {
-      const filePath = path.join(patchesContentDir, fileName);
+      const filePath = path.join(guidesContentDir, fileName);
       const source = await fs.readFile(filePath, "utf8");
-      const parsed = parsePatchMdxSource(source, fileName);
+      const parsed = parseGuideMdxSource(source, fileName);
 
       return {
         ...parsed,

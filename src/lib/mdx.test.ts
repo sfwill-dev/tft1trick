@@ -1,35 +1,32 @@
 import { ZodError } from "zod";
-import { parsePatchMdxSource } from "@/lib/mdx";
+import { parseGuideMdxSource } from "@/lib/mdx";
 
-describe("parsePatchMdxSource", () => {
+describe("parseGuideMdxSource", () => {
   it("parses and validates frontmatter", () => {
     const source = `---
-patch: "16.8"
-set: 16
-updatedAt: "2026-04-01"
+title: "Test guide"
+date: "2026-04-01"
 ---
 
 ## Sample comp`;
 
-    const result = parsePatchMdxSource(source, "patch-16.8.mdx");
+    const result = parseGuideMdxSource(source, "test-guide.mdx");
 
-    expect(result.fileName).toBe("patch-16.8.mdx");
+    expect(result.fileName).toBe("test-guide.mdx");
     expect(result.frontmatter).toEqual({
-      patch: "16.8",
-      set: 16,
-      updatedAt: "2026-04-01",
+      title: "Test guide",
+      date: "2026-04-01",
     });
     expect(result.content).toContain("## Sample comp");
   });
 
   it("throws when required frontmatter fields are missing", () => {
     const invalidSource = `---
-patch: "16.8"
-updatedAt: "2026-04-01"
+title: "Test guide"
 ---
 
-Missing set`;
+Missing date`;
 
-    expect(() => parsePatchMdxSource(invalidSource, "patch-16.8.mdx")).toThrow(ZodError);
+    expect(() => parseGuideMdxSource(invalidSource, "test-guide.mdx")).toThrow(ZodError);
   });
 });
