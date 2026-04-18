@@ -38,11 +38,9 @@ export default async function AllGuidesPage() {
                 <div>
                   <Link
                     href={`/guides/${guide.slug}`}
-                    className="group text-zinc-200 transition hover:text-zinc-50"
+                    className="group text-zinc-200 transition hover:text-zinc-50 text-lg"
                   >
-                    <span className="text-lg font-medium underline decoration-zinc-500 underline-offset-4 group-hover:decoration-amber-300">
-                      {guide.frontmatter.title}
-                    </span>
+                    {guide.frontmatter.title}
                   </Link>
                 </div>
               </article>

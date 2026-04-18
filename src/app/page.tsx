@@ -40,7 +40,7 @@ export default async function Home() {
               <div className="space-y-1">
                 <p className="text-xs uppercase tracking-[0.16em] text-zinc-400">Latest guide</p>
                 <Link
-                  className="inline-flex items-center text-lg font-semibold tracking-tight text-zinc-50 underline decoration-zinc-500 underline-offset-4 transition hover:text-amber-200 hover:decoration-amber-300 sm:text-xl"
+                  className="inline-flex items-center text-lg font-semibold tracking-tight text-amber-300! no-underline! hover:underline! decoration-zinc-500 underline-offset-4 transition hover:text-amber-200 hover:decoration-amber-300 sm:text-xl"
                   href={`/guides/${latestGuide.slug}`}
                 >
                   {latestGuide.frontmatter.title} →
