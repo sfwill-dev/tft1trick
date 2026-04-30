@@ -73,7 +73,7 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
   };
 }
 
-export default async function GuidePage({ params }: GuidePageProps) {
+export default async function GuidePage({ params }: Readonly<GuidePageProps>) {
   const routeParams = await params;
 
   const entries = await getGuideEntries().catch((error) => {

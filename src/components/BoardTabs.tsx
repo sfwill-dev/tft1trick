@@ -12,7 +12,7 @@ import {
   useState,
 } from "react";
 
-type BoardDefinition = {
+type BoardTabProps = {
   id: string;
   title: string;
   image: string;
@@ -22,14 +22,11 @@ type BoardDefinition = {
 };
 
 type BoardTabsProps = {
-  boards?: BoardDefinition[];
+  boards?: BoardTabProps[];
   children?: ReactNode;
 };
 
-type BoardTabProps = BoardDefinition;
-
-export function BoardTab(_props: BoardTabProps) {
-  void _props;
+export function BoardTab() {
   return null;
 }
 
@@ -48,7 +45,7 @@ function parseDimension(value: unknown): number | undefined {
   return undefined;
 }
 
-function extractBoardsFromChildren(children: ReactNode): BoardDefinition[] {
+function extractBoardsFromChildren(children: ReactNode): BoardTabProps[] {
   return Children.toArray(children).flatMap((child) => {
     if (!isValidElement(child)) {
       return [];
@@ -77,14 +74,14 @@ function extractBoardsFromChildren(children: ReactNode): BoardDefinition[] {
 }
 
 function getHashId(): string {
-  if (typeof window === "undefined") {
+  if (globalThis.window === undefined) {
     return "";
   }
 
-  return decodeURIComponent(window.location.hash.replace(/^#/, ""));
+  return decodeURIComponent(globalThis.location.hash.replace(/^#/, ""));
 }
 
-export function BoardTabs({ boards = [], children }: BoardTabsProps) {
+export function BoardTabs({ boards = [], children }: Readonly<BoardTabsProps>) {
   const normalizedBoards = useMemo(() => {
     if (Array.isArray(boards) && boards.length > 0) {
       return boards;
@@ -113,18 +110,18 @@ export function BoardTabs({ boards = [], children }: BoardTabsProps) {
     }
 
     hasSyncedInitialHashRef.current = true;
-    const timeoutId = window.setTimeout(syncTabFromHash, 0);
+    const timeoutId = globalThis.setTimeout(syncTabFromHash, 0);
 
     return () => {
-      window.clearTimeout(timeoutId);
+      globalThis.clearTimeout(timeoutId);
     };
   }, [normalizedBoards.length, syncTabFromHash]);
 
   useEffect(() => {
-    window.addEventListener("hashchange", syncTabFromHash);
+    globalThis.addEventListener("hashchange", syncTabFromHash);
 
     return () => {
-      window.removeEventListener("hashchange", syncTabFromHash);
+      globalThis.removeEventListener("hashchange", syncTabFromHash);
     };
   }, [syncTabFromHash]);
 
@@ -138,7 +135,7 @@ export function BoardTabs({ boards = [], children }: BoardTabsProps) {
 
   return (
     <section className="not-prose space-y-3 rounded-lg border border-zinc-800/80 py-3">
-      <nav className="flex flex-wrap gap-2" aria-label="Board variations" role="tablist">
+      <nav className="flex flex-wrap gap-2" aria-label="Board variations">
         {normalizedBoards.map((board, index) => {
           const isActive = activeBoard.id === board.id;
           const tabId = board.id;

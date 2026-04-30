@@ -16,7 +16,7 @@ export function ScrollToTop() {
       }
 
       ticking = true;
-      window.requestAnimationFrame(() => {
+      globalThis.requestAnimationFrame(() => {
         setIsVisible(window.scrollY > VISIBILITY_THRESHOLD);
         ticking = false;
       });

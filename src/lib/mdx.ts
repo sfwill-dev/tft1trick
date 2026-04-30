@@ -19,56 +19,87 @@ export type GuideMdxEntry = {
 
 type ParsedGuideMdxSource = Pick<GuideMdxEntry, "fileName" | "frontmatter" | "content">;
 
+type MarkdownLinkParseResult = {
+  text: string;
+  nextIndex: number;
+  isTerminal: boolean;
+};
+
+function findCharacterIndex(source: string, startIndex: number, targetCharacter: string): number {
+  let index = startIndex;
+
+  while (index < source.length && source[index] !== targetCharacter) {
+    index += 1;
+  }
+
+  return index < source.length ? index : -1;
+}
+
+function parseMarkdownLinkAtIndex(source: string, index: number): MarkdownLinkParseResult {
+  const labelStart = index + 1;
+  const labelEnd = findCharacterIndex(source, labelStart, "]");
+
+  if (labelEnd === -1) {
+    return {
+      text: source.slice(index),
+      nextIndex: source.length,
+      isTerminal: true,
+    };
+  }
+
+  if (labelEnd + 1 >= source.length || source[labelEnd + 1] !== "(") {
+    return {
+      text: source.slice(index, labelEnd + 1),
+      nextIndex: labelEnd + 1,
+      isTerminal: false,
+    };
+  }
+
+  const urlStart = labelEnd + 2;
+  const urlEnd = findCharacterIndex(source, urlStart, ")");
+
+  if (urlEnd === -1) {
+    return {
+      text: source.slice(index),
+      nextIndex: source.length,
+      isTerminal: true,
+    };
+  }
+
+  if (labelEnd > labelStart) {
+    return {
+      text: source.slice(labelStart, labelEnd),
+      nextIndex: urlEnd + 1,
+      isTerminal: false,
+    };
+  }
+
+  return {
+    text: source.slice(index, urlEnd + 1),
+    nextIndex: urlEnd + 1,
+    isTerminal: false,
+  };
+}
+
 function stripMarkdownLinks(source: string): string {
   const result: string[] = [];
-  const sourceLength = source.length;
   let index = 0;
 
-  while (index < sourceLength) {
+  while (index < source.length) {
     if (source[index] !== "[") {
       result.push(source[index]);
       index += 1;
       continue;
     }
 
-    const labelStart = index + 1;
-    let labelEnd = labelStart;
+    const parsedLink = parseMarkdownLinkAtIndex(source, index);
+    result.push(parsedLink.text);
 
-    while (labelEnd < sourceLength && source[labelEnd] !== "]") {
-      labelEnd += 1;
-    }
-
-    if (labelEnd >= sourceLength) {
-      result.push(source.slice(index));
+    if (parsedLink.isTerminal) {
       break;
     }
 
-    if (labelEnd + 1 >= sourceLength || source[labelEnd + 1] !== "(") {
-      result.push(source.slice(index, labelEnd + 1));
-      index = labelEnd + 1;
-      continue;
-    }
-
-    const urlStart = labelEnd + 2;
-    let urlEnd = urlStart;
-
-    while (urlEnd < sourceLength && source[urlEnd] !== ")") {
-      urlEnd += 1;
-    }
-
-    if (urlEnd >= sourceLength) {
-      result.push(source.slice(index));
-      break;
-    }
-
-    if (labelEnd > labelStart) {
-      result.push(source.slice(labelStart, labelEnd));
-      index = urlEnd + 1;
-      continue;
-    }
-
-    result.push(source.slice(index, urlEnd + 1));
-    index = urlEnd + 1;
+    index = parsedLink.nextIndex;
   }
 
   return result.join("");
@@ -82,7 +113,7 @@ function stripHtmlTags(source: string): string {
     if (character === "<") {
       insideTag = true;
 
-      if (result.length > 0 && result[result.length - 1] !== " ") {
+      if (result.length > 0 && result.at(-1) !== " ") {
         result.push(" ");
       }
 
@@ -109,9 +140,9 @@ function stripMdxToPlainText(source: string): string {
   const withoutHtmlTags = stripHtmlTags(source);
 
   return stripMarkdownLinks(withoutHtmlTags)
-    .replace(/`{1,3}[^`]*`{1,3}/g, " ")
-    .replace(/[*_~>#]/g, " ")
-    .replace(/\s+/g, " ")
+    .replaceAll(/`{1,3}[^`]*`{1,3}/g, " ")
+    .replaceAll(/[*_~>#]/g, " ")
+    .replaceAll(/\s+/g, " ")
     .trim();
 }
 
