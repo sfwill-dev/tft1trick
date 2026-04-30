@@ -1,15 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { formatGuideDate } from "@/lib/format";
 import { getRecentGuides } from "@/lib/guides";
 import { getGuideEntries } from "@/lib/mdx";
 
-function formatGuideDate(date: string): string {
-  return new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    timeZone: "UTC",
-  });
-}
+export const metadata: Metadata = {
+  title: "Guides",
+  description: "Latest TFT one-trick guides and breakdowns by TFT1Trick.",
+};
 
 export default async function GuidesPage() {
   const guideEntries = await getGuideEntries().catch((error) => {

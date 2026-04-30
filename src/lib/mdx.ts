@@ -6,6 +6,7 @@ import { guideFrontmatterSchema, type GuideFrontmatter } from "@/schemas/guide";
 const contentRootDir = path.join(process.cwd(), "content");
 const homeContentDir = path.join(contentRootDir, "home");
 const guidesContentDir = path.join(contentRootDir, "guides");
+let cachedGuideEntries: GuideMdxEntry[] | null = null;
 
 export type GuideMdxEntry = {
   slug: string;
@@ -31,6 +32,10 @@ export function parseGuideMdxSource(source: string, fileName: string): Omit<Guid
 }
 
 export async function getGuideEntries(): Promise<GuideMdxEntry[]> {
+  if (cachedGuideEntries) {
+    return cachedGuideEntries;
+  }
+
   const files = await fs.readdir(guidesContentDir);
   const mdxFiles = files.filter((file) => file.endsWith(".mdx") && !file.startsWith("_"));
 
@@ -46,6 +51,8 @@ export async function getGuideEntries(): Promise<GuideMdxEntry[]> {
       };
     }),
   );
+
+  cachedGuideEntries = entries;
 
   return entries;
 }

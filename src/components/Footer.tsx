@@ -3,6 +3,7 @@ export function Footer() {
     <footer className="border-t border-zinc-200/20 py-6">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 px-6 text-xs text-zinc-300 md:px-10">
         <div className="flex flex-col items-center justify-between gap-2 text-center md:flex-row md:text-left">
+          {/* Static export renders this at build time; year updates on next deploy. */}
           <p>© {new Date().getFullYear()} TFT1Trick</p>
           <p className="flex flex-wrap items-center justify-center gap-2 md:justify-end">
             <span>

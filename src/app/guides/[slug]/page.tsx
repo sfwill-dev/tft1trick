@@ -1,6 +1,8 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { BoardTab, BoardTabs } from "@/components/BoardTabs";
+import { formatGuideDate } from "@/lib/format";
 import { getGuideBySlug, sortGuidesByDateDescending } from "@/lib/guides";
 import { getGuideEntries } from "@/lib/mdx";
 
@@ -10,15 +12,6 @@ type GuidePageProps = {
   }>;
 };
 
-function formatGuideDate(date: string): string {
-  return new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    timeZone: "UTC",
-  });
-}
-
 export async function generateStaticParams() {
   const entries = await getGuideEntries().catch((error) => {
     console.error("Failed to read guide entries while generating static params", error);
@@ -26,6 +19,28 @@ export async function generateStaticParams() {
   });
 
   return entries.map((entry) => ({ slug: entry.slug }));
+}
+
+export async function generateMetadata({ params }: GuidePageProps): Promise<Metadata> {
+  const routeParams = await params;
+  const entries = await getGuideEntries().catch((error) => {
+    console.error("Failed to load guide entries for metadata", error);
+    return [];
+  });
+  const sortedEntries = sortGuidesByDateDescending(entries);
+  const entry = getGuideBySlug(sortedEntries, routeParams.slug);
+
+  if (!entry) {
+    return {
+      title: "Guide not found",
+      description: "Requested TFT guide could not be found.",
+    };
+  }
+
+  return {
+    title: entry.frontmatter.title,
+    description: `${entry.frontmatter.title} — TFT one-trick guide by TFT1Trick.`,
+  };
 }
 
 export default async function GuidePage({ params }: GuidePageProps) {

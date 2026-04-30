@@ -130,6 +130,7 @@ export function BoardTabs({ boards = [], children }: BoardTabsProps) {
 
   const safeActiveTabIndex = activeTabIndex >= normalizedBoards.length ? 0 : activeTabIndex;
   const activeBoard = normalizedBoards[safeActiveTabIndex] ?? normalizedBoards[0] ?? null;
+  const activePanelId = activeBoard ? `${activeBoard.id}-panel` : undefined;
 
   if (!activeBoard) {
     return null;
@@ -137,17 +138,22 @@ export function BoardTabs({ boards = [], children }: BoardTabsProps) {
 
   return (
     <section className="not-prose space-y-3 rounded-lg border border-zinc-800/80 py-3">
-      <nav className="flex flex-wrap gap-2" aria-label="Board variations">
+      <nav className="flex flex-wrap gap-2" aria-label="Board variations" role="tablist">
         {normalizedBoards.map((board, index) => {
           const isActive = activeBoard.id === board.id;
+          const tabId = board.id;
+          const panelId = `${board.id}-panel`;
 
           return (
             <button
               key={board.id}
-              id={board.id}
+              id={tabId}
               type="button"
               onClick={() => setActiveTabIndex(index)}
-              aria-pressed={isActive}
+              role="tab"
+              aria-selected={isActive}
+              aria-controls={panelId}
+              tabIndex={isActive ? 0 : -1}
               className={[
                 "cursor-pointer rounded-md border px-3 py-1 text-sm font-medium transition-colors",
                 isActive
@@ -161,13 +167,15 @@ export function BoardTabs({ boards = [], children }: BoardTabsProps) {
         })}
       </nav>
 
-      <Image
-        src={activeBoard.image}
-        alt={activeBoard.alt ?? `${activeBoard.title} board`}
-        width={activeBoard.width ?? 1200}
-        height={activeBoard.height ?? 675}
-        className="h-auto w-full rounded-md border border-zinc-700/80"
-      />
+      <div id={activePanelId} role="tabpanel" aria-labelledby={activeBoard.id} tabIndex={0}>
+        <Image
+          src={activeBoard.image}
+          alt={activeBoard.alt ?? `${activeBoard.title} board`}
+          width={activeBoard.width ?? 1200}
+          height={activeBoard.height ?? 675}
+          className="h-auto w-full rounded-md border border-zinc-700/80"
+        />
+      </div>
     </section>
   );
 }
