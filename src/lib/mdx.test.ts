@@ -1,5 +1,5 @@
 import { ZodError } from "zod";
-import { parseGuideMdxSource } from "@/lib/mdx";
+import { createGuideExcerpt, parseGuideMdxSource } from "@/lib/mdx";
 
 describe("parseGuideMdxSource", () => {
   it("parses and validates frontmatter", () => {
@@ -28,5 +28,27 @@ title: "Test guide"
 Missing date`;
 
     expect(() => parseGuideMdxSource(invalidSource, "test-guide.mdx")).toThrow(ZodError);
+  });
+});
+
+describe("createGuideExcerpt", () => {
+  it("strips markdown links while keeping visible label text", () => {
+    const content = "Check [NOVA guide](https://example.com/guide) now";
+
+    expect(createGuideExcerpt(content)).toBe("Check NOVA guide now");
+  });
+
+  it("handles malformed markdown links without failing", () => {
+    const content = "Broken [NOVA guide](https://example.com and [another] text";
+
+    expect(createGuideExcerpt(content)).toBe(
+      "Broken [NOVA guide](https://example.com and [another] text",
+    );
+  });
+
+  it("handles large malformed markdown input", () => {
+    const content = `${"[".repeat(15000)}important`;
+
+    expect(createGuideExcerpt(content, 30)).toBe(`${"[".repeat(30)}…`);
   });
 });

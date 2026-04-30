@@ -19,10 +19,65 @@ export type GuideMdxEntry = {
 
 type ParsedGuideMdxSource = Pick<GuideMdxEntry, "fileName" | "frontmatter" | "content">;
 
+function stripMarkdownLinks(source: string): string {
+  const result: string[] = [];
+  const sourceLength = source.length;
+  let index = 0;
+
+  while (index < sourceLength) {
+    if (source[index] !== "[") {
+      result.push(source[index]);
+      index += 1;
+      continue;
+    }
+
+    const labelStart = index + 1;
+    let labelEnd = labelStart;
+
+    while (labelEnd < sourceLength && source[labelEnd] !== "]") {
+      labelEnd += 1;
+    }
+
+    if (labelEnd >= sourceLength) {
+      result.push(source.slice(index));
+      break;
+    }
+
+    if (labelEnd + 1 >= sourceLength || source[labelEnd + 1] !== "(") {
+      result.push(source.slice(index, labelEnd + 1));
+      index = labelEnd + 1;
+      continue;
+    }
+
+    const urlStart = labelEnd + 2;
+    let urlEnd = urlStart;
+
+    while (urlEnd < sourceLength && source[urlEnd] !== ")") {
+      urlEnd += 1;
+    }
+
+    if (urlEnd >= sourceLength) {
+      result.push(source.slice(index));
+      break;
+    }
+
+    if (labelEnd > labelStart) {
+      result.push(source.slice(labelStart, labelEnd));
+      index = urlEnd + 1;
+      continue;
+    }
+
+    result.push(source.slice(index, urlEnd + 1));
+    index = urlEnd + 1;
+  }
+
+  return result.join("");
+}
+
 function stripMdxToPlainText(source: string): string {
-  return source
-    .replace(/<[^>]*>/g, " ")
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, "$1")
+  const withoutHtmlTags = source.replace(/<[^>]*>/g, " ");
+
+  return stripMarkdownLinks(withoutHtmlTags)
     .replace(/`{1,3}[^`]*`{1,3}/g, " ")
     .replace(/[*_~>#]/g, " ")
     .replace(/\s+/g, " ")
