@@ -128,6 +128,7 @@ infra/
 
 - S3 bucket for static site artifacts.
 - CloudFront distribution in front of S3.
+- CSP is enabled and intentionally allows inline script/style required by Next.js static hydration in this setup.
 - Origin access configured so S3 is not publicly open beyond required setup.
 - ACM certificate (for CloudFront custom domain TLS).
 

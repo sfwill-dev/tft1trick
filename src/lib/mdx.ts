@@ -74,8 +74,39 @@ function stripMarkdownLinks(source: string): string {
   return result.join("");
 }
 
+function stripHtmlTags(source: string): string {
+  const result: string[] = [];
+  let insideTag = false;
+
+  for (const character of source) {
+    if (character === "<") {
+      insideTag = true;
+
+      if (result.length > 0 && result[result.length - 1] !== " ") {
+        result.push(" ");
+      }
+
+      continue;
+    }
+
+    if (character === ">") {
+      if (insideTag) {
+        insideTag = false;
+
+        continue;
+      }
+    }
+
+    if (!insideTag) {
+      result.push(character);
+    }
+  }
+
+  return result.join("");
+}
+
 function stripMdxToPlainText(source: string): string {
-  const withoutHtmlTags = source.replace(/<[^>]*>/g, " ");
+  const withoutHtmlTags = stripHtmlTags(source);
 
   return stripMarkdownLinks(withoutHtmlTags)
     .replace(/`{1,3}[^`]*`{1,3}/g, " ")
