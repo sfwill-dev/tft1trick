@@ -6,6 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "lighthouse:urls": "npx --yes tsx ./scripts/lighthouse-urls.ts",
+    "lighthouse:local": "npm run build && npx @lhci/cli collect --config=./lighthouserc.json $(npm run -s lighthouse:urls) && npx @lhci/cli assert --config=./lighthouserc.json",
     "lint": "eslint .",
     "type-check": "tsc --noEmit",
     "test": "vitest run",

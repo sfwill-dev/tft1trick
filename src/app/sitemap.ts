@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { getGuideEntries } from "@/lib/mdx";
 
+export const dynamic = "force-static";
+
 const SITE_URL = "https://tft1trick.com";
 const BUILD_DATE = new Date();
 
