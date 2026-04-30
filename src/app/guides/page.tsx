@@ -7,6 +7,12 @@ import { getGuideEntries } from "@/lib/mdx";
 export const metadata: Metadata = {
   title: "Guides",
   description: "Latest TFT one-trick guides and breakdowns by TFT1Trick.",
+  alternates: {
+    canonical: "/guides",
+  },
+  openGraph: {
+    url: "https://tft1trick.com/guides",
+  },
 };
 
 export default async function GuidesPage() {

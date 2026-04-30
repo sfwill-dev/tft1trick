@@ -15,6 +15,7 @@ const guides = [
       date: "2026-04-01",
     },
     content: "A",
+    excerpt: "A",
   },
   {
     slug: "guide-b",
@@ -24,6 +25,7 @@ const guides = [
       date: "2026-04-15",
     },
     content: "B",
+    excerpt: "B",
   },
   {
     slug: "guide-c",
@@ -33,6 +35,7 @@ const guides = [
       date: "2026-03-20",
     },
     content: "C",
+    excerpt: "C",
   },
 ];
 

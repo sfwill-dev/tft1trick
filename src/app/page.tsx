@@ -9,6 +9,12 @@ export const metadata: Metadata = {
   title: "Home",
   description:
     "TFT1Trick - The TFT one-trick playbook: patch-by-patch guides, ranked climb insights, and practical TFT fundamentals.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    url: "https://tft1trick.com/",
+  },
 };
 
 export default async function Home() {
