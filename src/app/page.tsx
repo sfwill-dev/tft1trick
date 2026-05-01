@@ -7,7 +7,6 @@ import { getLatestGuide } from "@/lib/guides";
 import { getGuideEntries, getHomePageSource } from "@/lib/mdx";
 
 export const metadata: Metadata = {
-  title: "Home",
   description:
     "TFT1Trick - The TFT one-trick playbook: patch-by-patch guides, ranked climb insights, and practical TFT fundamentals.",
   alternates: {
