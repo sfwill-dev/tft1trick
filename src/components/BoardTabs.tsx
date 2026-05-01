@@ -160,7 +160,7 @@ export function BoardTabs({ boards = [], children }: Readonly<BoardTabsProps>) {
         })}
       </nav>
 
-      <div id={activePanelId} tabIndex={0}>
+      <div id={activePanelId}>
         <Image
           src={activeBoard.image}
           alt={activeBoard.alt ?? `${activeBoard.title} board`}
