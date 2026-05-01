@@ -22,6 +22,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "site_access_logs" {
     id     = "expire-access-logs-after-90-days"
     status = "Enabled"
 
+    filter {}
+
     expiration {
       days = 90
     }
