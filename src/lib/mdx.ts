@@ -7,6 +7,9 @@ const contentRootDir = path.join(process.cwd(), "content");
 const homeContentDir = path.join(contentRootDir, "home");
 const guidesContentDir = path.join(contentRootDir, "guides");
 const GUIDE_EXCERPT_MAX_LENGTH = 155;
+// This module-level cache is safe for the current architecture because the site
+// is statically exported at build time (next.config.ts -> output: "export").
+// If runtime rendering is introduced in the future, revisit invalidation.
 let cachedGuideEntries: GuideMdxEntry[] | null = null;
 
 export type GuideMdxEntry = {
@@ -86,8 +89,14 @@ function stripMarkdownLinks(source: string): string {
   let index = 0;
 
   while (index < source.length) {
-    if (source[index] !== "[") {
-      result.push(source[index]);
+    const currentCharacter = source[index];
+
+    if (currentCharacter === undefined) {
+      break;
+    }
+
+    if (currentCharacter !== "[") {
+      result.push(currentCharacter);
       index += 1;
       continue;
     }

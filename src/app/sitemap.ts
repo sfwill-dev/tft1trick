@@ -1,9 +1,9 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/constants";
 import { getGuideEntries } from "@/lib/mdx";
 
 export const dynamic = "force-static";
 
-const SITE_URL = "https://tft1trick.com";
 const BUILD_DATE = new Date();
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

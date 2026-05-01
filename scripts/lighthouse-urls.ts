@@ -7,6 +7,9 @@ type GuideEntry = {
   date: string;
 };
 
+// Intentionally duplicated from app/lib content loading logic: this script runs
+// in a standalone Node process for CI Lighthouse checks and keeps dependencies
+// minimal to avoid coupling with runtime-only modules.
 const BASE_URL = process.env.LHCI_BASE_URL ?? "http://localhost:3000";
 const GUIDES_DIR = path.join(process.cwd(), "content", "guides");
 

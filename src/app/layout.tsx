@@ -3,10 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { SITE_NAME, SITE_URL } from "@/lib/constants";
+import { toSafeJsonLd } from "@/lib/seo";
 import "./globals.css";
 
-const SITE_URL = "https://tft1trick.com";
-const SITE_NAME = "TFT1Trick";
 const DEFAULT_DESCRIPTION =
   "TFT one-trick insights, patch approaches, and climb journey by TFT1Trick.";
 const DEFAULT_OG_IMAGE = "/tft1trick-monogram-squared.png";
@@ -77,7 +77,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col text-zinc-100">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: toSafeJsonLd(websiteJsonLd) }}
         />
         <Header />
         <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-6 py-10 md:px-10">

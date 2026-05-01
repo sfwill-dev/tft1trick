@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import { SITE_URL } from "@/lib/constants";
 import { getLatestGuide } from "@/lib/guides";
 import { getGuideEntries, getHomePageSource } from "@/lib/mdx";
 
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    url: "https://tft1trick.com/",
+    url: `${SITE_URL}/`,
   },
 };
 

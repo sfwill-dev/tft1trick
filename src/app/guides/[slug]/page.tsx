@@ -4,9 +4,10 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { BoardTab, BoardTabs } from "@/components/BoardTabs";
 import { formatGuideDate } from "@/lib/format";
 import { getGuideBySlug, sortGuidesByDateDescending } from "@/lib/guides";
+import { SITE_URL } from "@/lib/constants";
 import { getGuideEntries } from "@/lib/mdx";
+import { toSafeJsonLd } from "@/lib/seo";
 
-const SITE_URL = "https://tft1trick.com";
 const GUIDE_DESCRIPTION_FALLBACK_SUFFIX = " — TFT one-trick guide by TFT1Trick.";
 
 type GuidePageProps = {
@@ -76,6 +77,8 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
 export default async function GuidePage({ params }: Readonly<GuidePageProps>) {
   const routeParams = await params;
 
+  // generateStaticParams, generateMetadata, and this page each call getGuideEntries().
+  // With static export and module cache in mdx.ts, this stays cheap and deterministic.
   const entries = await getGuideEntries().catch((error) => {
     console.error("Failed to load guide entries", error);
     return [];
@@ -120,7 +123,7 @@ export default async function GuidePage({ params }: Readonly<GuidePageProps>) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: toSafeJsonLd(articleJsonLd) }}
       />
       <article className="space-y-0">
         <header className="space-y-2 pb-6">

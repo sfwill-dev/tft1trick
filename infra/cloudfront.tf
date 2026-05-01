@@ -45,21 +45,21 @@ resource "aws_cloudfront_response_headers_policy" "site_security_headers" {
 
 resource "aws_cloudfront_function" "clean_urls" {
   name    = "${var.project_name}-clean-urls"
-  runtime = "cloudfront-js-1.0"
+  runtime = "cloudfront-js-2.0"
   comment = "Rewrite extensionless URLs to static HTML object keys"
   publish = true
 
   code = <<-EOT
 function handler(event) {
-  var request = event.request;
-  var uri = request.uri;
+  const request = event.request;
+  const uri = request.uri;
 
   if (uri.endsWith('/')) {
     request.uri = uri + 'index.html';
     return request;
   }
 
-  var hasKnownAssetExtension = uri.match(/\.(?:css|js|mjs|map|json|txt|xml|png|jpe?g|gif|webp|svg|ico|woff2?|ttf|eot|otf|mp4|webm|webmanifest)$/i);
+  const hasKnownAssetExtension = uri.match(/\.(?:css|js|mjs|map|json|txt|xml|png|jpe?g|gif|webp|svg|ico|woff2?|ttf|eot|otf|mp4|webm|webmanifest)$/i);
 
   if (!hasKnownAssetExtension && !uri.endsWith('.html')) {
     request.uri = uri + '.html';

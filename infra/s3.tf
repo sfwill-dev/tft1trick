@@ -15,6 +15,19 @@ resource "aws_s3_bucket" "site_access_logs" {
   })
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "site_access_logs" {
+  bucket = aws_s3_bucket.site_access_logs.id
+
+  rule {
+    id     = "expire-access-logs-after-90-days"
+    status = "Enabled"
+
+    expiration {
+      days = 90
+    }
+  }
+}
+
 resource "aws_s3_bucket_ownership_controls" "site_access_logs" {
   bucket = aws_s3_bucket.site_access_logs.id
 

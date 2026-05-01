@@ -11,7 +11,7 @@ export function Footer() {
               <a
                 className="text-zinc-100 underline decoration-zinc-400 underline-offset-2"
                 href="https://sfwill.me"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 target="_blank"
               >
                 sfwill
@@ -24,7 +24,7 @@ export function Footer() {
               aria-label="View source code and licenses on GitHub"
               className="inline-flex items-center gap-1 text-zinc-100 underline decoration-zinc-400 underline-offset-2"
               href="https://github.com/sfwill-dev/tft1trick"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               target="_blank"
             >
               <svg

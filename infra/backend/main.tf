@@ -33,6 +33,19 @@ resource "aws_s3_bucket" "terraform_state_access_logs" {
   }
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "terraform_state_access_logs" {
+  bucket = aws_s3_bucket.terraform_state_access_logs.id
+
+  rule {
+    id     = "expire-terraform-state-access-logs-after-90-days"
+    status = "Enabled"
+
+    expiration {
+      days = 90
+    }
+  }
+}
+
 resource "aws_s3_bucket_ownership_controls" "terraform_state_access_logs" {
   bucket = aws_s3_bucket.terraform_state_access_logs.id
 

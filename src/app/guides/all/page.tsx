@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { formatGuideDate } from "@/lib/format";
+import { GuideList } from "@/components/GuideList";
+import { SITE_URL } from "@/lib/constants";
 import { sortGuidesByDateDescending } from "@/lib/guides";
 import { getGuideEntries } from "@/lib/mdx";
 
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     canonical: "/guides/all",
   },
   openGraph: {
-    url: "https://tft1trick.com/guides/all",
+    url: `${SITE_URL}/guides/all`,
   },
 };
 
@@ -32,25 +32,7 @@ export default async function AllGuidesPage() {
       {allGuides.length === 0 ? (
         <p className="text-sm text-zinc-300">No guides available yet.</p>
       ) : (
-        <ul className="space-y-5">
-          {allGuides.map((guide) => (
-            <li key={guide.slug}>
-              <article className="space-y-1">
-                <time className="text-xs uppercase tracking-[0.16em] text-zinc-400">
-                  {formatGuideDate(guide.frontmatter.date)}
-                </time>
-                <div>
-                  <Link
-                    href={`/guides/${guide.slug}`}
-                    className="group text-zinc-200 transition hover:text-zinc-50 text-lg"
-                  >
-                    {guide.frontmatter.title}
-                  </Link>
-                </div>
-              </article>
-            </li>
-          ))}
-        </ul>
+        <GuideList guides={allGuides} />
       )}
     </section>
   );

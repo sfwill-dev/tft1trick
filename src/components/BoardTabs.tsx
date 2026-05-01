@@ -126,7 +126,7 @@ export function BoardTabs({ boards = [], children }: Readonly<BoardTabsProps>) {
   }, [syncTabFromHash]);
 
   const safeActiveTabIndex = activeTabIndex >= normalizedBoards.length ? 0 : activeTabIndex;
-  const activeBoard = normalizedBoards[safeActiveTabIndex] ?? normalizedBoards[0] ?? null;
+  const activeBoard = normalizedBoards.at(safeActiveTabIndex) ?? null;
   const activePanelId = activeBoard ? `${activeBoard.id}-panel` : undefined;
 
   if (!activeBoard) {
@@ -139,7 +139,6 @@ export function BoardTabs({ boards = [], children }: Readonly<BoardTabsProps>) {
         {normalizedBoards.map((board, index) => {
           const isActive = activeBoard.id === board.id;
           const tabId = board.id;
-          const panelId = `${board.id}-panel`;
 
           return (
             <button
@@ -147,10 +146,7 @@ export function BoardTabs({ boards = [], children }: Readonly<BoardTabsProps>) {
               id={tabId}
               type="button"
               onClick={() => setActiveTabIndex(index)}
-              role="tab"
-              aria-selected={isActive}
-              aria-controls={panelId}
-              tabIndex={isActive ? 0 : -1}
+              aria-pressed={isActive}
               className={[
                 "cursor-pointer rounded-md border px-3 py-1 text-sm font-medium transition-colors",
                 isActive
@@ -164,7 +160,7 @@ export function BoardTabs({ boards = [], children }: Readonly<BoardTabsProps>) {
         })}
       </nav>
 
-      <div id={activePanelId} role="tabpanel" aria-labelledby={activeBoard.id} tabIndex={0}>
+      <div id={activePanelId} tabIndex={0}>
         <Image
           src={activeBoard.image}
           alt={activeBoard.alt ?? `${activeBoard.title} board`}
