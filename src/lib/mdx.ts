@@ -7,10 +7,6 @@ const contentRootDir = path.join(process.cwd(), "content");
 const homeContentDir = path.join(contentRootDir, "home");
 const guidesContentDir = path.join(contentRootDir, "guides");
 const GUIDE_EXCERPT_MAX_LENGTH = 155;
-// This module-level cache is safe for the current architecture because the site
-// is statically exported at build time (next.config.ts -> output: "export").
-// If runtime rendering is introduced in the future, revisit invalidation.
-let cachedGuideEntries: GuideMdxEntry[] | null = null;
 
 export type GuideMdxEntry = {
   slug: string;
@@ -186,10 +182,6 @@ export function parseGuideMdxSource(source: string, fileName: string): ParsedGui
 }
 
 export async function getGuideEntries(): Promise<GuideMdxEntry[]> {
-  if (cachedGuideEntries) {
-    return cachedGuideEntries;
-  }
-
   const files = await fs.readdir(guidesContentDir);
   const mdxFiles = files.filter((file) => file.endsWith(".mdx") && !file.startsWith("_"));
 
@@ -206,8 +198,6 @@ export async function getGuideEntries(): Promise<GuideMdxEntry[]> {
       };
     }),
   );
-
-  cachedGuideEntries = entries;
 
   return entries;
 }

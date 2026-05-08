@@ -38,7 +38,7 @@ describe("content loading", () => {
     expect(guide?.excerpt).not.toContain("<");
   });
 
-  it("uses cached guide entries on repeated calls", async () => {
+  it("reads guide entries on repeated calls", async () => {
     vi.resetModules();
     const readdirSpy = vi.spyOn(fs, "readdir");
     const { getGuideEntries: getGuideEntriesFromFreshModule } = await import("@/lib/mdx");
@@ -46,7 +46,7 @@ describe("content loading", () => {
     await getGuideEntriesFromFreshModule();
     await getGuideEntriesFromFreshModule();
 
-    expect(readdirSpy).toHaveBeenCalledTimes(1);
+    expect(readdirSpy).toHaveBeenCalledTimes(2);
   });
 });
 
